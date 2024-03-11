@@ -154,7 +154,7 @@ end
 
 function DeepCultivator:onDraw(dt)
 	local spec = self.spec_DeepCultivator
-	if spec = nil and spec.deepMode then
+	if spec ~= nil and spec.deepMode then
 		g_currentMission:addExtraPrintText(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeShort"))
 	end
 end
