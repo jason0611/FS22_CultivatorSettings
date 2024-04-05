@@ -26,7 +26,8 @@ function DeepCultivator.getConfigurationsFromXML(xmlFile, superfunc, baseXMLName
 	dbgprint("addHLMconfig : Kat: "..storeItem.categoryName.." / ".."Name: "..storeItem.xmlFilename, 2)
 
 	local category = storeItem.categoryName
-	if configurations ~= nil and category == "CULTIVATORS" then
+	local vehicleType = string.lower(xmlFile:getValue("vehicle#type") or "")
+	if configurations ~= nil and category == "CULTIVATORS" and vehicleType ~= "dynamiccultivator" then
 		configurations["DeepCultivator"] = {
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = true,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal")},
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep")},
