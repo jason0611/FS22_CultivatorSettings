@@ -26,7 +26,7 @@ function DeepCultivator.getConfigurationsFromXML(xmlFile, superfunc, baseXMLName
 	dbgprint("addHLMconfig : Kat: "..storeItem.categoryName.." / ".."Name: "..storeItem.xmlFilename, 2)
 
 	local category = storeItem.categoryName
-	if configurations ~= nil then
+	if configurations ~= nil and category == "CULTIVATORS" then
 		configurations["DeepCultivator"] = {
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = true,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal")},
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep")},
@@ -41,6 +41,7 @@ end
 
 function DeepCultivator.initSpecialization()
 	dbgprint("initSpecialization : start", 2)
+	
     local schemaSavegame = Vehicle.xmlSchemaSavegame
 	local key = DeepCultivator.MOD_NAME..".DeepCultivator"
 	schemaSavegame:register(XMLValueType.INT, "vehicles.vehicle(?)."..key.."#config", "Cultivator configuration", 1)
@@ -50,6 +51,7 @@ function DeepCultivator.initSpecialization()
 	if g_configurationManager.configurations["DeepCultivator"] == nil then
 		g_configurationManager:addConfigurationType("DeepCultivator", g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_configuration"), nil, nil, nil, nil, ConfigurationUtil.SELECTOR_MULTIOPTION)
 	end
+	
 	StoreItemUtil.getConfigurationsFromXML = Utils.overwrittenFunction(StoreItemUtil.getConfigurationsFromXML, DeepCultivator.getConfigurationsFromXML)
 	dbgprint("initSpecialization : Configuration initialized", 1)
 end
