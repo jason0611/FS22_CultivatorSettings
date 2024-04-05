@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="79">
 	<author>Glowins Modschmiede</author>
-	<version>0.9.6.0</version>
+	<version>0.9.7.0</version>
 
 	<title>
 		<en>Optional Deep Cultivator</en>
@@ -48,6 +48,22 @@
 		<text name="deepModeShort">
             <en>Cultivator: Subsoiler</en>
             <de>Grubber: Tiefengrubber</de>
+        </text>
+        <text name="text_DC_configuration">
+            <en>Cultivator Setting</en>
+            <de>Grubber-Einstellung</de>
+        </text>
+        <text name="text_DC_deep">
+            <en>Subsoiler</en>
+            <de>Tiefengrubber</de>
+        </text>
+        <text name="text_DC_normal">
+            <en>Cultivator</en>
+            <de>Grubber</de>
+        </text>
+        <text name="text_DC_ISOBUS">
+            <en>Switchable (ISOBUS)</en>
+            <de>Umschaltbar (ISOBUS)</de>
         </text>
     </l10n>
 </modDesc>
