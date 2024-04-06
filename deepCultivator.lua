@@ -82,7 +82,7 @@ function DeepCultivator:onLoad(savegame)
 	spec.dirtyFlag = self:getNextDirtyFlag()
 	
 	spec.deepMode = false	
-	spec.config = 1		
+	spec.config = 0	
 end
 
 function DeepCultivator:onPostLoad(savegame)
@@ -90,7 +90,7 @@ function DeepCultivator:onPostLoad(savegame)
 	local spec = self.spec_DeepCultivator
 	
 	-- Get DC configuration
-	spec.config = self.configurations["DeepCultivator"]
+	spec.config = self.configurations["DeepCultivator"] or 0
 	dbgprint("onPostLoad: spec.config = "..tostring(spec.config), 2)
 	
 	if savegame ~= nil then	
@@ -106,7 +106,7 @@ function DeepCultivator:onPostLoad(savegame)
 	end
 	
 	-- Set DC configuration if set by savegame
-	self.configurations["DeepCultivator"] = spec.config
+	if spec.config > 0 then self.configurations["DeepCultivator"] = spec.config end
 	spec.deepMode = spec.config == 2 or spec.deepMode
 	
 	dbgprint("onPostLoad : Cultivator setting: "..tostring(spec.config), 1)
@@ -118,13 +118,14 @@ function DeepCultivator:saveToXMLFile(xmlFile, key, usedModNames)
 	dbgprint("saveToXMLFile", 2)
 	local spec = self.spec_DeepCultivator
 	spec.config = self.configurations["DeepCultivator"]
-	
-	xmlFile:setValue(key.."#config", spec.config)
-	if spec.config == 3 then
-		dbgprint("saveToXMLFile : key: "..tostring(key), 2)
-		xmlFile:setValue(key.."#deepMode", spec.deepMode)
+	if spec.config > 0 then
+		xmlFile:setValue(key.."#config", spec.config)
+		if spec.config == 3 then
+			dbgprint("saveToXMLFile : key: "..tostring(key), 2)
+			xmlFile:setValue(key.."#deepMode", spec.deepMode)
+		end
+		dbgprint("saveToXMLFile : saving data finished", 2)
 	end
-	dbgprint("saveToXMLFile : saving data finished", 2)
 end
 
 function DeepCultivator:onReadStream(streamId, connection)
@@ -200,7 +201,7 @@ function DeepCultivator:onUpdate(dt)
 	local spec = self.spec_DeepCultivator
 	local specCV = self.spec_cultivator
 	
-	if spec ~= nil and specCV ~= nil and spec.deepMode ~= specCV.isSubsoiler then
+	if spec ~= nil and spec.config > 0 and specCV ~= nil and spec.deepMode ~= specCV.isSubsoiler then
 		specCV.isSubsoiler = spec.deepMode
 	end
 end
