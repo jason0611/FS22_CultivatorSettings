@@ -117,7 +117,7 @@ end
 function DeepCultivator:saveToXMLFile(xmlFile, key, usedModNames)
 	dbgprint("saveToXMLFile", 2)
 	local spec = self.spec_DeepCultivator
-	spec.config = self.configurations["DeepCultivator"]
+	spec.config = self.configurations["DeepCultivator"] or 0
 	if spec.config > 0 then
 		xmlFile:setValue(key.."#config", spec.config)
 		if spec.config == 3 then
