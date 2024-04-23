@@ -15,25 +15,25 @@ DeepCultivator.showKeys = true
 
 -- Standards / Basics
 function DeepCultivator.prerequisitesPresent(specializations)
-  return true
+	return true
 end
 
 -- set configuration 
 
 function DeepCultivator.getConfigurationsFromXML(xmlFile, superfunc, baseXMLName, baseDir, customEnvironment, isMod, storeItem)
-    
     local configurations, defaultConfigurationIds = superfunc(xmlFile, baseXMLName, baseDir, customEnvironment, isMod, storeItem)
 	dbgprint("addHLMconfig : Kat: "..storeItem.categoryName.." / ".."Name: "..storeItem.xmlFilename, 2)
 
 	local category = storeItem.categoryName
 	local vehicleType = string.lower(xmlFile:getValue("vehicle#type") or "")
-	if configurations ~= nil and category == "CULTIVATORS" and vehicleType ~= "dynamiccultivator" then
+	-- register only for cultivators and leave mods alone: Modders should know which kind of device they create... ;-)
+	if not isMod and configurations ~= nil and category == "CULTIVATORS" then
 		configurations["DeepCultivator"] = {
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = true,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal")},
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep")},
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS"), index = 3, isDefault = false, isSelectable = true, price = 2500, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS")}
     	}
-    	dbgprint("addDCconfig : Configuration DeepCultivator added", 2)
+    	dbgprint("addCconfig : Configuration DeepCultivator added", 2)
     	dbgprint_r(configurations["DeepCultivator"], 4)
 	end
 	
