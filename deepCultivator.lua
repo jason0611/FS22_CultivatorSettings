@@ -62,12 +62,17 @@ function DeepCultivator.registerEventListeners(vehicleType)
 	SpecializationUtil.registerEventListener(vehicleType, "onPostLoad", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "saveToXMLFile", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onRegisterActionEvents", DeepCultivator)
+	SpecializationUtil.registerEventListener(vehicleType, "registerOverwrittenFunctions", DeepCultivator)
  	SpecializationUtil.registerEventListener(vehicleType, "onReadStream", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onWriteStream", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onReadUpdateStream", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onWriteUpdateStream", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onUpdate", DeepCultivator)
 	SpecializationUtil.registerEventListener(vehicleType, "onDraw", DeepCultivator)
+end
+
+function DeepCultivator.registerOverwrittenFunctions(vehicleType)
+	SpecializationUtil.registerOverwrittenFunction(vehicleType, "getPowerMultiplier", DeepCultivator.getPowerMultiplier)
 end
 
 function DeepCultivator:onLoad(savegame)
@@ -193,6 +198,13 @@ function DeepCultivator:TOGGLE(actionName, keyStatus, arg3, arg4, arg5)
 		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, "Umschalten auf Tiefengrubber")
 	end
 	self:raiseDirtyFlags(spec.dirtyFlag)
+end
+
+function DeepCultivator:getPowerMultiplier(superfunc)
+	local spec = self.spec_DeepCultivator
+	local multiplier = 1
+	if spec.deepMode then multiplier = 1.8 end
+	return superfunc(self) * multiplier
 end
 
 -- change setting
