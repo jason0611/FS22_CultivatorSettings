@@ -9,7 +9,7 @@ if DeepCultivator.MOD_NAME == nil then DeepCultivator.MOD_NAME = g_currentModNam
 DeepCultivator.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(DeepCultivator.MOD_NAME, true, 1)
+GMSDebug:init(DeepCultivator.MOD_NAME)
 
 DeepCultivator.showKeys = true
 
