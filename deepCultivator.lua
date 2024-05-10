@@ -192,10 +192,10 @@ function DeepCultivator:TOGGLE(actionName, keyStatus, arg3, arg4, arg5)
 	spec.deepMode = not spec.deepMode
 	if spec.deepMode then
 		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeOn"), "", 2500)
-		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, "Umschalten auf Grubber")
+		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToNormal"))
 	else
 		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeOff"), "", 2500)
-		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, "Umschalten auf Tiefengrubber")
+		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToDeepMode"))
 	end
 	self:raiseDirtyFlags(spec.dirtyFlag)
 end

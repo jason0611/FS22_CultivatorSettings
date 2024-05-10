@@ -32,7 +32,7 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
 		</de>	    
  	</description>	
     <multiplayer supported="true"/>
-	<iconFilename>modIcon.dds</iconFilename>
+	<iconFilename>icon_DeepCultivator.dds</iconFilename>
 	<extraSourceFiles>
     	<sourceFile filename="deepCultivatorRegister.lua" />
     </extraSourceFiles>
@@ -40,12 +40,22 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
 		<action name="TOGGLEDM" category="VEHICLE" ignoreComboMask="false" />
 	</actions>
 	<inputBinding>	
-		<actionBinding action="TOGGLEDM" />
+		<actionBinding action="TOGGLEDM">
+			<binding device="KB_MOUSE_DEFAULT" input="KEY_lctrl KEY_lalt KEY_g" neutralInput="0" index="1" />
+		</actionBinding>
 	</inputBinding>
 	<l10n>
 		<text name="input_TOGGLEDM">
             <en>Toggle Deep Mode</en>
             <de>Grubbereinstellung wechseln</de>
+        </text>
+        <text name="action_switchToNormal">
+        	<en>Switch to Cultivator</en>
+        	<de>Umschalten auf Grubber</de>
+        </text>
+        <text name="action_switchToDeepMode">
+        	<en>Switch to Subsoiler</en>
+        	<de>Umschalten auf Tiefengrubber</de>
         </text>
 		<text name="deepModeHeader">
             <en>Cultivator setting</en>
