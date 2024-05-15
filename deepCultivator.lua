@@ -9,7 +9,7 @@ if DeepCultivator.MOD_NAME == nil then DeepCultivator.MOD_NAME = g_currentModNam
 DeepCultivator.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(DeepCultivator.MOD_NAME)
+GMSDebug:init(DeepCultivator.MOD_NAME, true, 2)
 
 DeepCultivator.showKeys = true
 
@@ -30,8 +30,9 @@ function DeepCultivator.getConfigurationsFromXML(xmlFile, superfunc, baseXMLName
 	if not isMod and configurations ~= nil and category == "CULTIVATORS" then
 		configurations["DeepCultivator"] = {
         	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = true,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_normal")},
-        	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep")},
-        	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS"), index = 3, isDefault = false, isSelectable = true, price = 2500, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS")}
+        	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_shallow"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_shallow")},
+        	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep"), index = 3, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_deep")},
+        	{name = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS"), index = 4, isDefault = false, isSelectable = true, price = 2500, dailyUpkeep = 0, desc = g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("text_DC_ISOBUS")}
     	}
     	dbgprint("addCconfig : Configuration DeepCultivator added", 2)
     	dbgprint_r(configurations["DeepCultivator"], 4)
@@ -46,7 +47,7 @@ function DeepCultivator.initSpecialization()
     local schemaSavegame = Vehicle.xmlSchemaSavegame
 	local key = DeepCultivator.MOD_NAME..".DeepCultivator"
 	schemaSavegame:register(XMLValueType.INT, "vehicles.vehicle(?)."..key.."#config", "Cultivator configuration", 1)
-	schemaSavegame:register(XMLValueType.BOOL, "vehicles.vehicle(?)."..key.."#deepMode", "SubSoiler setting", false)
+	schemaSavegame:register(XMLValueType.INT, "vehicles.vehicle(?)."..key.."#mode", "Cultivator setting", 1)
 	dbgprint("initSpecialization: finished xmlSchemaSavegame registration process", 2)
 	
 	if g_configurationManager.configurations["DeepCultivator"] == nil then
@@ -86,7 +87,7 @@ function DeepCultivator:onLoad(savegame)
 	local spec = self.spec_DeepCultivator
 	spec.dirtyFlag = self:getNextDirtyFlag()
 	
-	spec.deepMode = false	
+	spec.mode = 1
 	spec.config = 0	
 end
 
@@ -104,18 +105,22 @@ function DeepCultivator:onPostLoad(savegame)
 		local key = savegame.key .."."..DeepCultivator.MOD_NAME..".DeepCultivator"
 		
 		spec.config = xmlFile:getValue(key.."#config", spec.config)
-		if spec.config == 3 then
-			spec.deepMode = xmlFile:getValue(key.."#deepMode", spec.deepMode)
+		if spec.config == 4 then
+			spec.mode = xmlFile:getValue(key.."#mode", spec.mode)
 		end
 		dbgprint("onPostLoad : Loaded data for "..self:getName(), 1)
 	end
 	
 	-- Set DC configuration if set by savegame
-	if spec.config > 0 then self.configurations["DeepCultivator"] = spec.config end
-	spec.deepMode = spec.config == 2 or spec.deepMode
+	if spec.config > 0 then 
+		self.configurations["DeepCultivator"] = spec.config end
+		if spec.config < 4 then
+			spec.mode = spec.config
+		end
+	end 
 	
 	dbgprint("onPostLoad : Cultivator setting: "..tostring(spec.config), 1)
-	dbgprint("onPostLoad : DeepMode setting: "..tostring(spec.deepMode), 1)
+	dbgprint("onPostLoad : Mode setting: "..tostring(spec.mode), 1)
 	dbgprint_r(self.configurations, 4, 2)
 end
 
@@ -125,9 +130,9 @@ function DeepCultivator:saveToXMLFile(xmlFile, key, usedModNames)
 	spec.config = self.configurations["DeepCultivator"] or 0
 	if spec.config > 0 then
 		xmlFile:setValue(key.."#config", spec.config)
-		if spec.config == 3 then
+		if spec.config == 4 then
 			dbgprint("saveToXMLFile : key: "..tostring(key), 2)
-			xmlFile:setValue(key.."#deepMode", spec.deepMode)
+			xmlFile:setValue(key.."#mode", spec.mode)
 		end
 		dbgprint("saveToXMLFile : saving data finished", 2)
 	end
@@ -137,14 +142,14 @@ function DeepCultivator:onReadStream(streamId, connection)
 	dbgprint("onReadStream", 3)
 	local spec = self.spec_DeepCultivator
 	spec.config = streamReadInt8(streamId, connection)
-	spec.deepMode = streamReadBool(streamId, connection)
+	spec.mode = streamReadInt8(streamId, connection)
 end
 
 function DeepCultivator:onWriteStream(streamId, connection)
 	dbgprint("onWriteStream", 3)
 	local spec = self.spec_DeepCultivator
 	streamWriteInt8(streamId, spec.config)
-	streamWriteBool(streamId, spec.deepMode)
+	streamWriteInt8(streamId, spec.mode)
 end
 	
 function DeepCultivator:onReadUpdateStream(streamId, timestamp, connection)
@@ -153,7 +158,7 @@ function DeepCultivator:onReadUpdateStream(streamId, timestamp, connection)
 		if streamReadBool(streamId) then
 			dbgprint("onReadUpdateStream: receiving data...", 4)
 			spec.config = streamReadInt8(streamId)
-			spec.deepMode = streamReadBool(streamId)
+			spec.mode = streamReadInt8(streamId)
 		end
 	end
 end
@@ -164,7 +169,7 @@ function DeepCultivator:onWriteUpdateStream(streamId, connection, dirtyMask)
 		if streamWriteBool(streamId, bitAND(dirtyMask, spec.dirtyFlag) ~= 0) then
 			dbgprint("onWriteUpdateStream: sending data...", 4)
 			streamWriteInt8(streamId, spec.config)
-			streamWriteBool(streamId, spec.deepMode)
+			streamWriteInt8(streamId, spec.mode)
 		end
 	end
 end
@@ -176,7 +181,7 @@ function DeepCultivator:onRegisterActionEvents(isActiveForInput)
 	if self.isClient then
 		local spec = self.spec_DeepCultivator
 		DeepCultivator.actionEvents = {} 
-		if self:getIsActiveForInput(true) and spec ~= nil and spec.config == 3 then 
+		if self:getIsActiveForInput(true) and spec ~= nil and spec.config == 4 then 
 			local prio = GS_PRIO_LOW
 			_, spec.actionEventMainSwitch = self:addActionEvent(DeepCultivator.actionEvents, 'TOGGLEDM', self, DeepCultivator.TOGGLE, false, true, false, true, nil)
 			g_inputBinding:setActionEventTextPriority(spec.actionEventMainSwitch, prio)
@@ -189,13 +194,18 @@ function DeepCultivator:TOGGLE(actionName, keyStatus, arg3, arg4, arg5)
 	local spec = self.spec_DeepCultivator
 	dbgprint_r(spec, 4)
 	
-	spec.deepMode = not spec.deepMode
-	if spec.deepMode then
-		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeOn"), "", 2500)
-		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToNormal"))
-	else
-		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeOff"), "", 2500)
+	spec.mode = spec.mode + 1
+	if spec.mode > 3 then spec.mode = 1 end
+	
+	if spec.mode == 1 then
+		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("normalMode"), "", 2500)
+		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToShallow"))
+	elseif spec.mode == 2 then
+		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("shallowMode"), "", 2500)
 		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToDeepMode"))
+	elseif spec.mode == 3 then
+		g_currentMission:addGameNotification(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepMode"), "", 2500)
+		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToNormalMode"))
 	end
 	self:raiseDirtyFlags(spec.dirtyFlag)
 end
@@ -203,7 +213,8 @@ end
 function DeepCultivator:getPowerMultiplier(superfunc)
 	local spec = self.spec_DeepCultivator
 	local multiplier = 1
-	if spec.deepMode then multiplier = 1.8 end
+	if spec.mode == 2 then multiplier = 0.5 end
+	if spec.mode == 3 then multiplier = 1.8 end
 	return superfunc(self) * multiplier
 end
 
@@ -213,14 +224,27 @@ function DeepCultivator:onUpdate(dt)
 	local spec = self.spec_DeepCultivator
 	local specCV = self.spec_cultivator
 	
-	if spec ~= nil and spec.config > 0 and specCV ~= nil and spec.deepMode ~= specCV.isSubsoiler then
-		specCV.isSubsoiler = spec.deepMode
+	if spec ~= nil and specCV ~= nil then --and spec.config > 0 and specCV ~= nil and spec.deepMode ~= specCV.isSubsoiler then
+		if spec.mode == 1 then
+			specCv.useDeepMode = true
+			specCV.isSubsoiler = false
+		elseif spec.mode == 2 then
+			specCV.useDeepMode = false
+			specCV.isSubsoiler = false
+		elseif spec.mode == 3 then
+			specCV.useDeepMode = true
+			specCV.isSubSoiler = true
+		end
 	end
 end
 
 function DeepCultivator:onDraw(dt)
 	local spec = self.spec_DeepCultivator
-	if spec ~= nil and spec.deepMode then
-		g_currentMission:addExtraPrintText(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeShort"))
+	if spec ~= nil then 
+		if spec.mode == 2 then
+			g_currentMission:addExtraPrintText(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("shallowModeShort"))
+		elseif spec.mode == 3 then
+			g_currentMission:addExtraPrintText(g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("deepModeShort"))
+		end
 	end
 end
