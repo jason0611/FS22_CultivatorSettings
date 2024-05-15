@@ -4,16 +4,16 @@
 	<version>1.0.0.0</version>
 
 	<title>
-		<en>Optional Deep Cultivator</en>
-		<de>Optionaler Tiefengrubber</de>
+		<en>Cultivator Settings</en>
+		<de>Grubbereinstellungen</de>
     </title>
     <description>
 		<en>
 <![CDATA[
-Optional deep cultivator
+Cultivator Settings
 
 Many cultivators in the game can be operated in reality with different working depths depending on the settings.
-With this modification, the cultivators in the vanilla game and from DLCs also have this option: They can be configured in the shop as a "normal" cultivator, as a "deep cultivator" or as a variable cultivator, controllable via ISOBUS (additional costs: 2.500 €). ISOBUS-capable cultivators can then be switched at the touch of a button (Ctrl+Alt G).
+With this modification, the cultivators in the vanilla game and from DLCs also have this option: They can be configured in the shop as a "normal" cultivator, as a "deep cultivator", as "shallow cultivator", or as a variable cultivator, controllable via ISOBUS (additional costs: 2.500 €). ISOBUS-capable cultivators can then be switched at the touch of a button (Ctrl+Alt G).
 Soil cultivation with the deep cultivator replaces ploughing.
 
 Further ideas or requests are welcome at https://github.com/jason0611/FS22_DeepCultivator
@@ -24,7 +24,7 @@ Further ideas or requests are welcome at https://github.com/jason0611/FS22_DeepC
 Optionaler Tiefengrubber
 
 Viele Grubber im Spiel lassen ich in der Realität je nach Einstellung mit unterschiedlicher Arbeitstiefe betreiben.
-Mit dieser Modifikation erhalten auch die Grubber im Vanilla-Spiel und aus DLCs diese Möglichkeit: Sie können im Shop als "normaler Grubber", als "Tiefengrubber" oder als variabler Grubber, ansteuerbar über ISOBUS, konfiguriert werden (Extrakosten: 2.500 €). ISOBUS-fähige Grubber lassen sich dann per Tastendruck (Strg+Alt G) umschalten.
+Mit dieser Modifikation erhalten auch die Grubber im Vanilla-Spiel und aus DLCs diese Möglichkeit: Sie können im Shop als "normaler Grubber", als "Tiefengrubber", als "Flachgrubber", oder als variabler Grubber, ansteuerbar über ISOBUS, konfiguriert werden (Extrakosten: 2.500 €). ISOBUS-fähige Grubber lassen sich dann per Tastendruck (Strg+Alt G) umschalten.
 Die Bodenbearbeitung mit dem Tiefengrubber ersetzt das Pflügen.
 
 Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22_DeepCultivator entgegengenommen
@@ -50,28 +50,40 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
             <de>Grubbereinstellung wechseln</de>
         </text>
         <text name="action_switchToNormal">
-        	<en>Switch to Cultivator</en>
+        	<en>Switch to cultivator</en>
         	<de>Umschalten auf Grubber</de>
         </text>
         <text name="action_switchToDeepMode">
-        	<en>Switch to Subsoiler</en>
+        	<en>Switch to subsoiler</en>
         	<de>Umschalten auf Tiefengrubber</de>
+        </text>
+        <text name="action_switchToShallowMode">
+        	<en>Switch to shallow cultivator</en>
+        	<de>Umschalten auf Flachgrubber</de>
         </text>
 		<text name="deepModeHeader">
             <en>Cultivator setting</en>
             <de>Grubbereinstellung</de>
         </text>
-		<text name="deepModeOn">
-            <en>Cultivator is configured as subsoiler now</en>
+		<text name="deepMode">
+            <en>Cultivator is configured as a subsoiler now</en>
             <de>Grubber ist nun als Tiefengrubber eingestellt</de>
         </text>
-		<text name="deepModeOff">
-            <en>Cultivator is configured as cultivator now</en>
+		<text name="normalMode">
+            <en>Cultivator is configured as a cultivator now</en>
             <de>Grubber ist nun als normaler Grubber eingestellt</de>
+        </text>
+        <text name="shallowMode">
+            <en>Cultivator is configured as a shallow cultivator now</en>
+            <de>Grubber ist nun als Flachgrubber eingestellt</de>
         </text>
 		<text name="deepModeShort">
             <en>Cultivator: Subsoiler</en>
             <de>Grubber: Tiefengrubber</de>
+        </text>
+        <text name="shallowModeShort">
+            <en>Cultivator: Shallow cultivator</en>
+            <de>Grubber: Flachgrubber</de>
         </text>
         <text name="text_DC_configuration">
             <en>Cultivator Setting</en>
@@ -80,6 +92,10 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
         <text name="text_DC_deep">
             <en>Subsoiler</en>
             <de>Tiefengrubber</de>
+        </text>
+         <text name="text_DC_shallow">
+            <en>Shallow cultivator</en>
+            <de>Flachgrubber</de>
         </text>
         <text name="text_DC_normal">
             <en>Cultivator</en>
