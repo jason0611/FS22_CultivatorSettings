@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="80">
 	<author>Glowins Modschmiede</author>
-	<version>0.9.9.0</version>
+	<version>0.9.9.1</version>
 
 	<title>
 		<en>Cultivator Settings</en>
@@ -50,28 +50,40 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
             <de>Grubbereinstellung wechseln</de>
         </text>
         <text name="action_switchToNormal">
-        	<en>Switch to Cultivator</en>
+        	<en>Switch to cultivator</en>
         	<de>Umschalten auf Grubber</de>
         </text>
         <text name="action_switchToDeepMode">
-        	<en>Switch to Subsoiler</en>
+        	<en>Switch to subsoiler</en>
         	<de>Umschalten auf Tiefengrubber</de>
+        </text>
+        <text name="action_switchToShallowMode">
+        	<en>Switch to shallow cultivator</en>
+        	<de>Umschalten auf Flachgrubber</de>
         </text>
 		<text name="deepModeHeader">
             <en>Cultivator setting</en>
             <de>Grubbereinstellung</de>
         </text>
-		<text name="deepModeOn">
-            <en>Cultivator is configured as subsoiler now</en>
+		<text name="deepMode">
+            <en>Cultivator is configured as a subsoiler now</en>
             <de>Grubber ist nun als Tiefengrubber eingestellt</de>
         </text>
-		<text name="deepModeOff">
-            <en>Cultivator is configured as cultivator now</en>
+		<text name="normalMode">
+            <en>Cultivator is configured as a cultivator now</en>
             <de>Grubber ist nun als normaler Grubber eingestellt</de>
+        </text>
+        <text name="shallowMode">
+            <en>Cultivator is configured as a shallow cultivator now</en>
+            <de>Grubber ist nun als Flachgrubber eingestellt</de>
         </text>
 		<text name="deepModeShort">
             <en>Cultivator: Subsoiler</en>
             <de>Grubber: Tiefengrubber</de>
+        </text>
+        <text name="shallowModeShort">
+            <en>Cultivator: Shallow cultivator</en>
+            <de>Grubber: Flachgrubber</de>
         </text>
         <text name="text_DC_configuration">
             <en>Cultivator Setting</en>
@@ -80,6 +92,10 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
         <text name="text_DC_deep">
             <en>Subsoiler</en>
             <de>Tiefengrubber</de>
+        </text>
+         <text name="text_DC_shallow">
+            <en>Shallow cultivator</en>
+            <de>Flachgrubber</de>
         </text>
         <text name="text_DC_normal">
             <en>Cultivator</en>

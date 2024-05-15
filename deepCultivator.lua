@@ -88,6 +88,7 @@ function DeepCultivator:onLoad(savegame)
 	spec.dirtyFlag = self:getNextDirtyFlag()
 	
 	spec.mode = 1
+	spec.lastMode = 0
 	spec.config = 0	
 end
 
@@ -113,13 +114,13 @@ function DeepCultivator:onPostLoad(savegame)
 	
 	-- Set DC configuration if set by savegame
 	if spec.config > 0 then 
-		self.configurations["DeepCultivator"] = spec.config end
+		self.configurations["DeepCultivator"] = spec.config
 		if spec.config < 4 then
 			spec.mode = spec.config
 		end
 	end 
 	
-	dbgprint("onPostLoad : Cultivator setting: "..tostring(spec.config), 1)
+	dbgprint("onPostLoad : Cultivator config: "..tostring(spec.config), 1)
 	dbgprint("onPostLoad : Mode setting: "..tostring(spec.mode), 1)
 	dbgprint_r(self.configurations, 4, 2)
 end
@@ -208,6 +209,8 @@ function DeepCultivator:TOGGLE(actionName, keyStatus, arg3, arg4, arg5)
 		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[DeepCultivator.MOD_NAME]:getText("action_switchToNormalMode"))
 	end
 	self:raiseDirtyFlags(spec.dirtyFlag)
+	dbgprint("TOGGLE : Cultivator config: "..tostring(spec.config), 1)
+	dbgprint("TOGGLE : Mode setting: "..tostring(spec.mode), 1)
 end
 
 function DeepCultivator:getPowerMultiplier(superfunc)
@@ -224,17 +227,18 @@ function DeepCultivator:onUpdate(dt)
 	local spec = self.spec_DeepCultivator
 	local specCV = self.spec_cultivator
 	
-	if spec ~= nil and specCV ~= nil then --and spec.config > 0 and specCV ~= nil and spec.deepMode ~= specCV.isSubsoiler then
+	if spec ~= nil and specCV ~= nil and spec.mode ~= spec.lastMode then
 		if spec.mode == 1 then
-			specCv.useDeepMode = true
+			specCV.useDeepMode = true
 			specCV.isSubsoiler = false
 		elseif spec.mode == 2 then
 			specCV.useDeepMode = false
 			specCV.isSubsoiler = false
 		elseif spec.mode == 3 then
 			specCV.useDeepMode = true
-			specCV.isSubSoiler = true
+			specCV.isSubsoiler = true
 		end
+		spec.lastMode = spec.mode
 	end
 end
 
