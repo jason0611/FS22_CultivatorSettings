@@ -32,9 +32,9 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
 		</de>	    
  	</description>	
     <multiplayer supported="true"/>
-	<iconFilename>icon_DeepCultivator.dds</iconFilename>
+	<iconFilename>icon_CultivatorSettings.dds</iconFilename>
 	<extraSourceFiles>
-    	<sourceFile filename="deepCultivatorRegister.lua" />
+    	<sourceFile filename="cultivatorSettingsRegister.lua" />
     </extraSourceFiles>
 	<actions>
 		<action name="TOGGLEDM" category="VEHICLE" ignoreComboMask="false" />

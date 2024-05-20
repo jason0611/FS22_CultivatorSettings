@@ -4,11 +4,11 @@
 -- Glowins Modschmiede 
 --
 
-local specName = g_currentModName..".DeepCultivator"
+local specName = g_currentModName..".CultivatorSettings"
 
-if g_specializationManager:getSpecializationByName("DeepCultivator") == nil then
-  	g_specializationManager:addSpecialization("DeepCultivator", "DeepCultivator", g_currentModDirectory.."deepCultivator.lua", nil)
-  	dbgprint("Specialization 'DeepCultivator' added", 2)
+if g_specializationManager:getSpecializationByName("CultivatorSettings") == nil then
+  	g_specializationManager:addSpecialization("CultivatorSettings", "CultivatorSettings", g_currentModDirectory.."cultivatorSettings.lua", nil)
+  	dbgprint("Specialization 'CultivatorSettings' added", 2)
 end
 
 for typeName, typeEntry in pairs(g_vehicleTypeManager.types) do
