@@ -10,6 +10,7 @@ DeepCultivator.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(DeepCultivator.MOD_NAME, true, 1)
+GMSDebug:enableConsoleCommands("csDebug")
 
 DeepCultivator.showKeys = true
 
