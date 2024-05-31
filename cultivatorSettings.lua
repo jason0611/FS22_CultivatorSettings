@@ -201,7 +201,7 @@ function CultivatorSettings:TOGGLE(actionName, keyStatus, arg3, arg4, arg5)
 	
 	if spec.mode == 1 then
 		g_currentMission:addGameNotification(g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("normalMode"), "", 2500)
-		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("action_switchToShallow"))
+		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("action_switchToShallowMode"))
 	elseif spec.mode == 2 then
 		g_currentMission:addGameNotification(g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("deepModeHeader"), g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("shallowMode"), "", 2500)
 		g_inputBinding:setActionEventText(spec.actionEventMainSwitch, g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("action_switchToDeepMode"))

@@ -49,7 +49,7 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
             <en>Toggle Deep Mode</en>
             <de>Grubbereinstellung wechseln</de>
         </text>
-        <text name="action_switchToNormal">
+        <text name="action_switchToNormalMode">
         	<en>Switch to cultivator</en>
         	<de>Umschalten auf Grubber</de>
         </text>
