@@ -46,7 +46,7 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
 	</inputBinding>
 	<l10n>
 		<text name="input_TOGGLEDM">
-            <en>Toggle Deep Mode</en>
+            <en>Change cultivator setting</en>
             <de>Grubbereinstellung wechseln</de>
         </text>
         <text name="action_switchToNormalMode">
