@@ -97,7 +97,7 @@ function CultivatorSettings:onPostLoad(savegame)
 	dbgprint("onPostLoad: "..self:getFullName(), 2)
 	local spec = self.spec_CultivatorSettings
 	
-	-- Get DC configuration
+	-- Get configuration
 	spec.config = self.configurations["CultivatorSettings"] or 0
 	dbgprint("onPostLoad: spec.config = "..tostring(spec.config), 2)
 	
@@ -228,7 +228,7 @@ function CultivatorSettings:onUpdate(dt)
 	local spec = self.spec_CultivatorSettings
 	local specCV = self.spec_cultivator
 	
-	if spec ~= nil and specCV ~= nil and spec.mode ~= spec.lastMode then
+	if spec ~= nil and specCV ~= nil and spec.mode ~= spec.lastMode and spec.config > 0 then
 		if spec.mode == 1 then
 			specCV.useDeepMode = true
 			specCV.isSubsoiler = false
