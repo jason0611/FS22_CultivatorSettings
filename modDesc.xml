@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="80">
 	<author>Glowins Modschmiede</author>
-	<version>1.0.0.0</version>
+	<version>1.0.0.1</version>
 
 	<title>
 		<en>Cultivator Settings</en>
@@ -16,6 +16,9 @@ Many cultivators in the game can be operated in reality with different working d
 With this modification, the cultivators in the vanilla game and from DLCs also have this option: They can be configured in the shop as a "normal" cultivator, as a "deep cultivator", as "shallow cultivator", or as a variable cultivator, controllable via ISOBUS (additional costs: 2.500 €). ISOBUS-capable cultivators can then be switched at the touch of a button (Ctrl+Alt G).
 Soil cultivation with the deep cultivator replaces ploughing.
 
+Changelog V1.0.0.1 (Hotfix)
+- Influence on other devices (e.g. subsoilers) prevented
+
 Further ideas or requests are welcome at https://github.com/jason0611/FS22_CultivatorSettings
 ]]>
 		</en>	
@@ -26,6 +29,9 @@ Grubbereinstellungen
 Viele Grubber im Spiel lassen sich in der Realität je nach Einstellung mit unterschiedlicher Arbeitstiefe betreiben.
 Mit dieser Modifikation erhalten auch die Grubber im Vanilla-Spiel und aus DLCs diese Möglichkeit: Sie können im Shop als "normaler Grubber", als "Tiefengrubber", als "Flachgrubber", oder als variabler Grubber, ansteuerbar über ISOBUS, konfiguriert werden (Extrakosten: 2.500 €). ISOBUS-fähige Grubber lassen sich dann per Tastendruck (Strg+Alt G) umschalten.
 Die Bodenbearbeitung mit dem Tiefengrubber ersetzt das Pflügen.
+
+Changelog V1.0.0.1 (Hotfix)
+- Einfluss auf andere Geräte (z.B. Tiefenlockerer) unterbunden
 
 Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22_CultivatorSettings entgegengenommen
 ]]>
