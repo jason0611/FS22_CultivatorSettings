@@ -9,10 +9,8 @@ if CultivatorSettings.MOD_NAME == nil then CultivatorSettings.MOD_NAME = g_curre
 CultivatorSettings.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(CultivatorSettings.MOD_NAME, false)
+GMSDebug:init(CultivatorSettings.MOD_NAME, true, 1)
 GMSDebug:enableConsoleCommands("csDebug")
-
-CultivatorSettings.showKeys = true
 
 -- Standards / Basics
 function CultivatorSettings.prerequisitesPresent(specializations)
@@ -28,12 +26,13 @@ function CultivatorSettings.getConfigurationsFromXML(xmlFile, superfunc, baseXML
 	local category = storeItem.categoryName
 	local vehicleType = string.lower(xmlFile:getValue("vehicle#type") or "")
 	-- register only for cultivators and leave mods alone: Modders should know which kind of device they create... ;-)
-	if not isMod and configurations ~= nil and category == "CULTIVATORS" then
+	if configurations ~= nil and category == "CULTIVATORS" then
 		configurations["CultivatorSettings"] = {
-        	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = true,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_normal")},
-        	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow")},
+			{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow")},
+        	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_normal"), index = 1, isDefault = false,  isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_normal")},        	
         	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_deep"), index = 3, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_deep")},
-        	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_ISOBUS"), index = 4, isDefault = false, isSelectable = true, price = 2500, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_ISOBUS")}
+        	{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_ISOBUS"), index = 4, isDefault = false, isSelectable = true, price = 2500, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_ISOBUS")},
+			{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_off"), index = 5, isDefault = true, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_off")}
     	}
     	dbgprint("addCconfig : Configuration CultivatorSettings added", 2)
     	dbgprint_r(configurations["CultivatorSettings"], 4)
@@ -91,6 +90,7 @@ function CultivatorSettings:onLoad(savegame)
 	spec.mode = 1
 	spec.lastMode = 0
 	spec.config = 0	
+	spec.reset = false
 end
 
 function CultivatorSettings:onPostLoad(savegame)
@@ -120,6 +120,8 @@ function CultivatorSettings:onPostLoad(savegame)
 			spec.mode = spec.config
 		end
 	end 
+	
+	if spec.config == 5 then spec.reset = true end
 	
 	dbgprint("onPostLoad : Cultivator config: "..tostring(spec.config), 1)
 	dbgprint("onPostLoad : Mode setting: "..tostring(spec.mode), 1)
@@ -228,28 +230,59 @@ function CultivatorSettings:onUpdate(dt)
 	local spec = self.spec_CultivatorSettings
 	local specCV = self.spec_cultivator
 	
-	if spec ~= nil and specCV ~= nil and spec.mode ~= spec.lastMode and spec.config > 0 then
-		if spec.mode == 1 then
-			specCV.useDeepMode = true
-			specCV.isSubsoiler = false
-		elseif spec.mode == 2 then
-			specCV.useDeepMode = false
-			specCV.isSubsoiler = false
-		elseif spec.mode == 3 then
-			specCV.useDeepMode = true
-			specCV.isSubsoiler = true
+	if spec ~= nil and specCV ~= nil then
+		if specCV.useDeepModeBackup == nil then
+			specCV.useDeepModeBackup = specCV.useDeepMode
+			dbgprint("onUpdate: useDeepMode saved", 2)
 		end
-		spec.lastMode = spec.mode
+		if specCV.isSubsoilerBackup == nil then
+			specCV.isSubsoilerBackup = specCV.isSubsoiler
+			dbgprint("onUpdate: isSubsoiler saved", 2)
+		end		
+		if spec.config > 0 and spec.config < 5 and spec.mode ~= spec.lastMode then
+			if spec.mode == 1 then
+				specCV.useDeepMode = true
+				specCV.isSubsoiler = false
+				dbgprint("onUpdate: setting normal mode", 2)
+			elseif spec.mode == 2 then
+				specCV.useDeepMode = false
+				specCV.isSubsoiler = false
+				dbgprint("onUpdate: setting shallow mode", 2)
+			elseif spec.mode == 3 then
+				specCV.useDeepMode = true
+				specCV.isSubsoiler = true
+				dbgprint("onUpdate: setting deep mode", 2)
+			end
+			spec.lastMode = spec.mode
+		end
+		if spec.config == 5 and spec.reset then
+			if specCV.useDeepMode ~= specCV.useDeepModeBackup then
+				specCV.useDeepMode = specCV.useDeepModeBackup
+				dbgprint("useDeepMode reset", 1)
+			end
+			if specCV.isSubsoiler ~= specCV.isSubsoilerBackup then
+				specCV.isSubsoiler = specCV.isSubsoilerBackup
+				dbgprint("isSubsoiler reset", 1)
+			end
+			spec.reset = false
+		end
 	end
 end
 
 function CultivatorSettings:onDraw(dt)
 	local spec = self.spec_CultivatorSettings
+	local specCV = self.spec_cultivator
 	if spec ~= nil then 
 		if spec.mode == 2 then
 			g_currentMission:addExtraPrintText(g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("shallowModeShort"))
 		elseif spec.mode == 3 then
 			g_currentMission:addExtraPrintText(g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("deepModeShort"))
 		end
+	end
+	if specCV ~= nil then
+		dbgrender("useDeepMode: "..tostring(specCV.useDeepMode), 1, 3)
+		dbgrender("isSubsoiler: "..tostring(specCV.isSubsoiler), 2, 3)
+		dbgrender("useDeepModeBackup: "..tostring(specCV.useDeepModeBackup), 4, 3)
+		dbgrender("isSubsoilerBackup: "..tostring(specCV.isSubsoilerBackup), 5, 3)
 	end
 end

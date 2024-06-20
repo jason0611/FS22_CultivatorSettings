@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="80">
 	<author>Glowins Modschmiede</author>
-	<version>1.0.0.1</version>
+	<version>1.0.9.1</version>
 
 	<title>
 		<en>Cultivator Settings</en>
@@ -106,6 +106,10 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
         <text name="text_DC_normal">
             <en>Cultivator</en>
             <de>Grubber</de>
+        </text>
+        <text name="text_DC_off">
+            <en>Default game setting</en>
+            <de>Keine Änderung</de>
         </text>
         <text name="text_DC_ISOBUS">
             <en>Switchable (ISOBUS)</en>
