@@ -221,6 +221,31 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 	local multiplier = 1
 	if spec.mode == 2 then multiplier = 0.5 end
 	if spec.mode == 3 then multiplier = 1.8 end
+	
+	if g_precisionFarming ~= nil and spec.mode == 1 or spec.mode == 3 then
+		-- find implement's root node, use vehicle's rootNode if not found
+		local rootNode = self.rootNode
+		local implements = self:getAttachedImplements()
+		for _,implement in pairs(implements) do
+			if implement.spec_cultivator ~= nil then	
+				rootNode = implement.rootNode or rootNode
+				break
+			end
+		end
+		
+		-- get soil type at tool's position
+		local wx, _, wz = getWorldTranslation(rootNode)
+		local soilMap = g_precisionFarming.soilMap
+		local soilTypeIndex = soilMap:getTypeIndexAtWorldPos(wx, wz)
+		local soilType = soilMap:getSoilTypeByIndex(soilTypeIndex)
+		local soilTypeNAme = soilType.name
+		
+		dbgrender(tostring(soilTypeName), 10, 3)
+		dbgrender(tostring(soilTypeIndex), 11, 3)
+		
+		-- TODO: multiplier changes regarding to soil type
+	end		
+			
 	return superfunc(self) * multiplier
 end
 
