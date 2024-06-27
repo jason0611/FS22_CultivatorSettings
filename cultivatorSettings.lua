@@ -238,7 +238,7 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 		local soilMap = g_precisionFarming.soilMap
 		local soilTypeIndex = soilMap:getTypeIndexAtWorldPos(wx, wz)
 		local soilType = soilMap:getSoilTypeByIndex(soilTypeIndex)
-		local soilTypeNAme = soilType.name
+		local soilTypeName = soilType.name
 		
 		dbgrender(tostring(soilTypeName), 10, 3)
 		dbgrender(tostring(soilTypeIndex), 11, 3)
