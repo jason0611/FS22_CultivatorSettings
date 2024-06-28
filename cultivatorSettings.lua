@@ -9,7 +9,7 @@ if CultivatorSettings.MOD_NAME == nil then CultivatorSettings.MOD_NAME = g_curre
 CultivatorSettings.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(CultivatorSettings.MOD_NAME, true, 3)
+GMSDebug:init(CultivatorSettings.MOD_NAME, true, 2)
 GMSDebug:enableConsoleCommands("csDebug")
 
 -- Standards / Basics
