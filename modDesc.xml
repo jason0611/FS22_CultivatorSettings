@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="80">
 	<author>Glowins Modschmiede</author>
-	<version>1.0.0.1</version>
+	<version>1.1.0.0 Beta</version>
 
 	<title>
 		<en>Cultivator Settings</en>
@@ -19,6 +19,10 @@ Soil cultivation with the deep cultivator replaces ploughing.
 Changelog V1.0.0.1 (Hotfix)
 - Influence on other devices (e.g. subsoilers) prevented
 
+Changelog V1.1.0.0
+- Support for modded cultivators added
+- Additional configuration "Default game setting" to deactivate this script for choosen cultivators
+
 Further ideas or requests are welcome at https://github.com/jason0611/FS22_CultivatorSettings
 ]]>
 		</en>	
@@ -32,6 +36,10 @@ Die Bodenbearbeitung mit dem Tiefengrubber ersetzt das Pflügen.
 
 Changelog V1.0.0.1 (Hotfix)
 - Einfluss auf andere Geräte (z.B. Tiefenlockerer) unterbunden
+
+Changelog V1.1.0.0
+- Erweiterung auf Mod-Grubber
+- Zusätzliche Konfiguration "Keine Änderung", um das Skript für ausgewählte Grubber zu deaktivieren
 
 Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22_CultivatorSettings entgegengenommen
 ]]>
@@ -106,6 +114,10 @@ Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22
         <text name="text_DC_normal">
             <en>Cultivator</en>
             <de>Grubber</de>
+        </text>
+        <text name="text_DC_off">
+            <en>Default game setting</en>
+            <de>Keine Änderung</de>
         </text>
         <text name="text_DC_ISOBUS">
             <en>Switchable (ISOBUS)</en>
