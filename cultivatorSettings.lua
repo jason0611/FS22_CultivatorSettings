@@ -224,11 +224,13 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 	
 	-- fix multiplier value for REAimplements
 	local specPC = self.spec_powerConsumer
-	if specPC ~= nil then
-		if specPC.maxForceLeft ~= nil and specPC.maxForceBackup == nil then
+	if specPC ~= nil and specPC.MaxForceLeft ~= nil then
+		if specPC.maxForceBackup == nil then
 			specPC.maxForceBackup = specPC.maxForce
+			dbgrender("maxForceBackup: "..tostring(specPC.maxForceBackup), 8, 3)
 		end
 		specPC.maxForce = specPC.maxForceBackup * multiplier
+		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
 	end 
 	
 	return superfunc(self) * multiplier

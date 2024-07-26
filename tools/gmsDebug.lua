@@ -50,7 +50,7 @@ function GMSDebug:render(text, pos, prio)
 	if not GMSDebug.state or prio > GMSDebug.level then return; end
 	if pos == nil then pos = 1; end
 	setTextAlignment(RenderText.ALIGN_LEFT)
-	renderText(0.02, 0.83 - pos * 0.02, 0.01, "GMSDebug: "..text)
+	renderText(0.02, 0.83 - pos * 0.04, 0.02, "GMSDebug: "..text)
 end
 
 function GMSDebug:renderTable(data, pos, prio)
