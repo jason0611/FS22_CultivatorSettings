@@ -225,6 +225,17 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 	if spec.mode == 2 then multiplier = 0.5 end
 	if spec.mode == 3 then multiplier = 1.8 end
 	
+	-- fix multiplier value for REAimplements
+	local specPC = self.spec_powerConsumer
+	if specPC ~= nil and specPC.MaxForceLeft ~= nil then
+		if specPC.maxForceBackup == nil then
+			specPC.maxForceBackup = specPC.maxForce
+			dbgrender("maxForceBackup: "..tostring(specPC.maxForceBackup), 8, 3)
+		end
+		specPC.maxForce = specPC.maxForceBackup * multiplier
+		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
+	end 
+	
 	if pf ~= nil and (spec.mode == 1 or spec.mode == 3) then
 		-- find implement's root node, use vehicle's rootNode if not found
 		local rootNode = self.rootNode

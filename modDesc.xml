@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="no" ?>
 <modDesc descVersion="80">
 	<author>Glowins Modschmiede</author>
-	<version>1.1.9.0</version>
-
+  <version>1.1.1.1</version>
 	<title>
 		<en>Cultivator Settings</en>
 		<de>Grubbereinstellungen</de>
-    </title>
-    <description>
-		<en>
+  </title>
+  <description>
+  <en>
 <![CDATA[
 Cultivator Settings
 
@@ -24,6 +23,9 @@ Changelog V1.0.0.1 (Hotfix)
 Changelog V1.1.0.0
 - Support for modded cultivators added
 - Additional configuration "Default game setting" to deactivate this script for choosen cultivators
+
+Changelog V1.1.1.0
+- Fixed: With FS22_REAimplements active, the cultivator setting had no influence on the required pull force
 
 Further ideas or requests are welcome at https://github.com/jason0611/FS22_CultivatorSettings
 ]]>
@@ -44,6 +46,9 @@ Changelog V1.0.0.1 (Hotfix)
 Changelog V1.1.0.0
 - Erweiterung auf Mod-Grubber
 - Zusätzliche Konfiguration "Keine Änderung", um das Skript für ausgewählte Grubber zu deaktivieren
+
+Changelog V1.1.1.0
+- Behoben: Wenn FS22_REAimplements genutzt wurde, hatte die Grubbereinstellung keinen Einfluss auf die benötigte Zugkraft
 
 Weitere Ideen oder Wünsche werden gerne unter https://github.com/jason0611/FS22_CultivatorSettings entgegengenommen
 ]]>
