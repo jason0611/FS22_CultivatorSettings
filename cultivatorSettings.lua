@@ -9,7 +9,7 @@ if CultivatorSettings.MOD_NAME == nil then CultivatorSettings.MOD_NAME = g_curre
 CultivatorSettings.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(CultivatorSettings.MOD_NAME, true, 1)
+GMSDebug:init(CultivatorSettings.MOD_NAME, true, 2)
 GMSDebug:enableConsoleCommands("csDebug")
 
 -- Standards / Basics
@@ -218,7 +218,10 @@ end
 
 function CultivatorSettings:getPowerMultiplier(superfunc)
 	local spec = self.spec_CultivatorSettings
+	local pf = FS22_precisionFarming ~= nil and FS22_precisionFarming.g_precisionFarming or nil
 	local multiplier = 1
+	local soilTypeMultiplier = 1
+	
 	if spec.mode == 2 then multiplier = 0.5 end
 	if spec.mode == 3 then multiplier = 1.8 end
 	
@@ -233,7 +236,42 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
 	end 
 	
-	return superfunc(self) * multiplier
+	if pf ~= nil and (spec.mode == 1 or spec.mode == 3) then
+		-- find implement's root node, use vehicle's rootNode if not found
+		local rootNode = self.rootNode
+		local implements = self:getAttachedImplements()
+		for _,implement in pairs(implements) do
+			if implement.spec_cultivator ~= nil then	
+				rootNode = implement.rootNode or rootNode
+				break
+			end
+		end
+		
+		-- get soil type at tool's position
+		local wx, _, wz = getWorldTranslation(rootNode)
+		local soilMap = pf.soilMap
+		local soilTypeIndex = soilMap:getTypeIndexAtWorldPos(wx, wz)
+		
+		-- 1: Lehmiger Sand
+		-- 2: Sandiger Lehm
+		-- 3: Lehm
+		-- 4: Schluffiger Ton
+		
+		if soilTypeIndex == 1 then
+			soilTypeMultiplier = 0.8
+		elseif soilTypeIndex == 2 then
+			soilTypeMultiplier = 1
+		elseif soilTypeIndex == 3 then
+			soilTypeMultiplier = 1.2
+		elseif soilTypeIndex == 4 then
+			soilTypeMultiplier = 1.4
+		end
+		
+		dbgrender(tostring(soilTypeIndex), 10, 3)
+		dbgrender(tostring(soilTypeMultiplier), 11, 3)
+	end		
+			
+	return superfunc(self) * multiplier * soilTypeMultiplier
 end
 
 -- change setting
