@@ -9,7 +9,7 @@ if CultivatorSettings.MOD_NAME == nil then CultivatorSettings.MOD_NAME = g_curre
 CultivatorSettings.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(CultivatorSettings.MOD_NAME, false)
+GMSDebug:init(CultivatorSettings.MOD_NAME, true, 1)
 GMSDebug:enableConsoleCommands("csDebug")
 
 -- Standards / Basics
@@ -219,8 +219,21 @@ end
 function CultivatorSettings:getPowerMultiplier(superfunc)
 	local spec = self.spec_CultivatorSettings
 	local multiplier = 1
+	
 	if spec.mode == 2 then multiplier = 0.5 end
 	if spec.mode == 3 then multiplier = 1.8 end
+	
+	-- fix multiplier value for REAimplements
+	local specPC = self.spec_powerConsumer
+	if specPC ~= nil and specPC.MaxForceLeft ~= nil then
+		if specPC.maxForceBackup == nil then
+			specPC.maxForceBackup = specPC.maxForce
+			dbgrender("maxForceBackup: "..tostring(specPC.maxForceBackup), 8, 3)
+		end
+		specPC.maxForce = specPC.maxForceBackup * multiplier
+		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
+	end 	
+			
 	return superfunc(self) * multiplier
 end
 
