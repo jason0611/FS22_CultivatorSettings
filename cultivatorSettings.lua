@@ -9,8 +9,10 @@ if CultivatorSettings.MOD_NAME == nil then CultivatorSettings.MOD_NAME = g_curre
 CultivatorSettings.MODSETTINGSDIR = g_currentModSettingsDirectory
 
 source(g_currentModDirectory.."tools/gmsDebug.lua")
-GMSDebug:init(CultivatorSettings.MOD_NAME, true, 2)
+GMSDebug:init(CultivatorSettings.MOD_NAME, true, 3)
 GMSDebug:enableConsoleCommands("csDebug")
+
+CultivatorSettings.soilTypeMultipliers = {0.8, 1.0, 1.2, 1.4}
 
 -- Standards / Basics
 function CultivatorSettings.prerequisitesPresent(specializations)
@@ -225,17 +227,6 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 	if spec.mode == 2 then multiplier = 0.5 end
 	if spec.mode == 3 then multiplier = 1.8 end
 	
-	-- fix multiplier value for REAimplements
-	local specPC = self.spec_powerConsumer
-	if specPC ~= nil and specPC.MaxForceLeft ~= nil then
-		if specPC.maxForceBackup == nil then
-			specPC.maxForceBackup = specPC.maxForce
-			dbgrender("maxForceBackup: "..tostring(specPC.maxForceBackup), 8, 3)
-		end
-		specPC.maxForce = specPC.maxForceBackup * multiplier
-		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
-	end 
-	
 	if pf ~= nil and (spec.mode == 1 or spec.mode == 3) then
 		-- find implement's root node, use vehicle's rootNode if not found
 		local rootNode = self.rootNode
@@ -257,19 +248,23 @@ function CultivatorSettings:getPowerMultiplier(superfunc)
 		-- 3: Lehm
 		-- 4: Schluffiger Ton
 		
-		if soilTypeIndex == 1 then
-			soilTypeMultiplier = 0.8
-		elseif soilTypeIndex == 2 then
-			soilTypeMultiplier = 1
-		elseif soilTypeIndex == 3 then
-			soilTypeMultiplier = 1.2
-		elseif soilTypeIndex == 4 then
-			soilTypeMultiplier = 1.4
+		if soilTypeIndex ~= nil and soilTypeIndex > 0 then
+			soilTypeMultiplier = CultivatorSettings.soilTypeMultipliers[soilTypeIndex]
 		end
-		
-		dbgrender(tostring(soilTypeIndex), 10, 3)
-		dbgrender(tostring(soilTypeMultiplier), 11, 3)
-	end		
+		dbgrender("soilTypeIndex: "..tostring(soilTypeIndex), 10, 3)
+		dbgrender("soilTypeMultiplier: "..tostring(soilTypeMultiplier), 11, 3)
+	end	
+	
+	-- fix multiplier value for REAimplements
+	local specPC = self.spec_powerConsumer
+	if specPC ~= nil and specPC.MaxForceLeft ~= nil then
+		if specPC.maxForceBackup == nil then
+			specPC.maxForceBackup = specPC.maxForce
+			dbgrender("maxForceBackup: "..tostring(specPC.maxForceBackup), 8, 3)
+		end
+		specPC.maxForce = specPC.maxForceBackup * multiplier * soilTypeMultiplier
+		dbgrender("maxForce: "..tostring(specPC.maxForce), 8, 3)
+	end 
 			
 	return superfunc(self) * multiplier * soilTypeMultiplier
 end
