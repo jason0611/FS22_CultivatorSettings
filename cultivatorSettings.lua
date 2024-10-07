@@ -12,7 +12,7 @@ source(g_currentModDirectory.."tools/gmsDebug.lua")
 GMSDebug:init(CultivatorSettings.MOD_NAME, true, 3)
 GMSDebug:enableConsoleCommands("csDebug")
 
-CultivatorSettings.soilTypeMultipliers = {0.8, 1.0, 1.2, 1.4}
+CultivatorSettings.soilTypeMultipliers = {0.7, 1.0, 1.3, 1.6}
 
 -- Standards / Basics
 function CultivatorSettings.prerequisitesPresent(specializations)
@@ -26,8 +26,7 @@ function CultivatorSettings.getConfigurationsFromXML(xmlFile, superfunc, baseXML
 	dbgprint("addHLMconfig : Kat: "..storeItem.categoryName.." / ".."Name: "..storeItem.xmlFilename, 2)
 
 	local category = storeItem.categoryName
-	local vehicleType = string.lower(xmlFile:getValue("vehicle#type") or "")
-	-- register only for cultivators and leave mods alone: Modders should know which kind of device they create... ;-)
+	
 	if configurations ~= nil and category == "CULTIVATORS" then
 		configurations["CultivatorSettings"] = {
 			{name = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow"), index = 2, isDefault = false, isSelectable = true, price = 0, dailyUpkeep = 0, desc = g_i18n.modEnvironments[CultivatorSettings.MOD_NAME]:getText("text_DC_shallow")},
